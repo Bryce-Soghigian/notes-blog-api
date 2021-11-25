@@ -25,12 +25,15 @@ SECRET_KEY = 'django-insecure-=v@c7h#jm#u%z$jsl^0a#=)ck_sf-)=t48a5clb%qhadf@l-o)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'notes.apps.NotesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
