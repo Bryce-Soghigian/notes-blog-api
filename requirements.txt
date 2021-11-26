@@ -3,3 +3,5 @@ psycopg2-binary>=2.8
 beautifulsoup4>=4.10.0
 pytest>=6.2.5
 uwsgi
+gunicorn
+dj_database_url
