@@ -8,22 +8,34 @@ class SortedEntries(views.View):
     """
     Return all objects in sorted object based on category.
     """
-    def get(self):
+    def get(self, request: http.HttpRequest):
         """
         Retreive all of the notes in the database.
 
         Return them in a sorted ordering groupedby their category.
         """
         sorted_entries = {}
-        entry_cat = Entry.objects.raw('SELECT category FROM notes_entry')
+        entry_cat = Entry.objects.all().distinct('category')
         print(entry_cat)
         if not len(entry_cat):
             return http.JsonResponse(
                 'Please insert some categories into the database.'
             )
-
+        #
         for obj in entry_cat:
-            sorted_entries[obj] = Entry.objects.filter(category=obj)
+            local_category = obj.category
+            sorted_entries[local_category] = []
+            objs_matching_cat = Entry.objects.filter(category=local_category)
+            print(objs_matching_cat)
+            for sub_obj in objs_matching_cat:
+                new_obj = {
+                    'id': sub_obj.id,
+                    'entry_content': sub_obj.entry_content,
+                    'entry_title': sub_obj.entry_title,
+                    'entry_description': sub_obj.entry_description,
+                    'date_created': str(sub_obj.date_created),
+                }
+                sorted_entries[obj.category].append(new_obj)
 
         return http.JsonResponse(
             sorted_entries,
