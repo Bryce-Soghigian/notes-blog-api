@@ -50,8 +50,20 @@ class EntryView(views.View):
 
     def get(self):
 
+        output = []
+
+        for obj in Entry.objects.g:
+            new_obj = {
+                'id': obj.id,
+                'entry_content': obj.entry_content,
+                'entry_title': obj.entry_title,
+                'entry_description': obj.entry_description,
+                'date_created': str(obj.date_created),
+            }
+            output.append(new_obj)
+
         return http.JsonResponse(
-            Entry.objects.all(),
+            output,
             safe=False,
         )
 
