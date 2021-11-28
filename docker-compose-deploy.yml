@@ -7,7 +7,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   web:
-    build: .
+    image: soghigian-django-notes-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: python /code/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -22,6 +25,7 @@ services:
       - DEVELOPMENT_MODE=False
 
   proxy:
+    image: soghigian-proxy-notes-api:latest
     build:
       context: ./proxy
     volumes:
@@ -30,6 +34,7 @@ services:
       - "8080:8080"
     depends_on:
       - web
+
 
 # We want to store our static data and database somewhere on our linux boi
 volumes:
