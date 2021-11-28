@@ -65,6 +65,28 @@ class RetrieveEntry(views.View):
             )
         except Entry.DoesNotExist:
             return http.HttpResponseBadRequest(f'Note of {note_id} does not exist')
+class TitleView(views.View):
+    """
+    Title.
+    """
+    def get(self, request):
+        """
+        Select all the titles and ids in the entries table.
+        """
+
+        queryset = Entry.objects.values_list('id', 'entry_title')
+        output = []
+        for k,v in queryset:
+            new_obj = {
+                'id':k,
+                'entry_title':v,
+            }
+            output.append(new_obj)
+
+        return http.JsonResponse(
+            output,
+            safe=False
+        )
 
 class EntryView(views.View):
     """
