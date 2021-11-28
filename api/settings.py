@@ -24,6 +24,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 
 ]
+
 DEBUG = os.getenv("DEBUG", "False") == "True"
 DEVELOPMENT_MODE = True
 
@@ -31,7 +32,6 @@ DEVELOPMENT_MODE = True
 
 INSTALLED_APPS = [
     'corsheaders',
-    'whitenoise.runserver_nostatic',
     'notes.apps.NotesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # new
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,9 +123,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/static/'
+STATIC_ROOT = '/vol/web/static'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

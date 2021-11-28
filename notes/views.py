@@ -43,18 +43,43 @@ class SortedEntries(views.View):
         )
 
 
+class RetrieveEntry(views.View):
+    def get(self, request, note_id):
+        """
+        Retreive by id. I know this implementation is scuffed.
+        """
+
+        try:
+            sub_obj = Entry.objects.get(id=note_id)
+            new_obj = {
+                'id': sub_obj.id,
+                'entry_content': sub_obj.entry_content,
+                'entry_title': sub_obj.entry_title,
+                'category': sub_obj.category,
+                'entry_description': sub_obj.entry_description,
+                'date_created': str(sub_obj.date_created),
+            }
+            return http.JsonResponse(
+                new_obj,
+                safe=False,
+            )
+        except Entry.DoesNotExist:
+            return http.HttpResponseBadRequest(f'Note of {note_id} does not exist')
+
 class EntryView(views.View):
     """
     CRUD Endpoints for Entry.
     """
 
-    def get(self):
+    def get(self, request):
 
         output = []
+        entry_objs = list(Entry.objects.all())
 
-        for obj in Entry.objects.g:
+        for obj in entry_objs:
             new_obj = {
                 'id': obj.id,
+                'category': obj.category,
                 'entry_content': obj.entry_content,
                 'entry_title': obj.entry_title,
                 'entry_description': obj.entry_description,
